@@ -1,0 +1,14 @@
+.books-list {
+	&-row {
+		display: flex;
+		//padding: 20px;
+		div {
+			padding: 10px 20px;
+		}
+	}
+	&-date {
+		border: 1px solid black;
+		width: 130px;
+		flex-shrink: 0;
+	}
+}

@@ -1,0 +1,33 @@
+*,
+*:before,
+*:after{
+	box-sizing: border-box;
+}
+body{
+	margin: 0px;
+}
+.row{
+	max-width: $main-width;
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	flex: 0 0 auto;
+	width: 100%;
+	margin: 0 auto;
+	align-content: flex-start;
+	> * {
+		width: 100%;
+	}
+}
+.container{
+	max-width: $container-width;
+	margin: 0 auto;
+}
+.container-s{
+	max-width: $main-width;
+	margin: 0 auto;
+}
+.cols, .container-s{
+	padding-left: $gap;
+	padding-right: $gap;
+}

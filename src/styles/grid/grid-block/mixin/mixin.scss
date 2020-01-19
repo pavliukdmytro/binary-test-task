@@ -1,0 +1,109 @@
+//s_up 0px;
+@mixin s_up($cols, $margin-right, $margin-bottom){
+@media only screen and (min-width: 0px){
+	display: flex;
+	flex-wrap: wrap;
+	> *:nth-of-type(n){
+		width: calc(#{(100 / $cols) + '%'} - #{($margin-right * ($cols - 1)) / $cols + px});
+		margin-bottom: #{$margin-bottom + "px"};
+		margin-right: #{$margin-right + "px"};
+		}
+	> *:nth-child(#{$cols}n) {
+		margin-right: 0px;
+		}
+	//> :last-child{
+	//	margin-bottom: 0px;
+	//	}
+	}
+}
+//$s__:		480px;
+@mixin s__up($cols, $margin-right, $margin-bottom){
+	@media only screen and (min-width: #{$s__}){
+		> *:nth-of-type(n){
+			width: calc(#{(100 / $cols) + '%'} - #{($margin-right * ($cols - 1)) / $cols + px});
+			margin-bottom: #{$margin-bottom + "px"};
+			margin-right: #{$margin-right + "px"};
+		}
+		> *:nth-child(#{$cols}n) {
+			margin-right: 0px;
+		}
+	}
+}
+//$s___:	640px;
+@mixin s___up($cols, $margin-right, $margin-bottom){
+	@media only screen and (min-width: #{$s___}){
+		> *:nth-of-type(n){
+			width: calc(#{(100 / $cols) + '%'} - #{($margin-right * ($cols - 1)) / $cols + px});
+			margin-bottom: #{$margin-bottom + "px"};
+			margin-right: #{$margin-right + "px"};
+		}
+		> *:nth-child(#{$cols}n) {
+			margin-right: 0px;
+		}
+	}
+}
+//$m_:		768px;
+@mixin m_up($cols, $margin-right, $margin-bottom){
+	@media only screen and (min-width: #{$m_}){
+		> *:nth-of-type(n){
+			width: calc(#{(100 / $cols) + '%'} - #{($margin-right * ($cols - 1)) / $cols + px});
+			margin-bottom: #{$margin-bottom + "px"};
+			margin-right: #{$margin-right + "px"};
+		}
+		> *:nth-child(#{$cols}n) {
+			margin-right: 0px;
+		}
+	}
+}
+//$m__: 	960px;
+@mixin m__up($cols, $margin-right, $margin-bottom){
+	@media only screen and (min-width: #{$m__}){
+		> *:nth-of-type(n){
+			width: calc(#{(100 / $cols) + '%'} - #{($margin-right * ($cols - 1)) / $cols + px});
+			margin-bottom: #{$margin-bottom + "px"};
+			margin-right: #{$margin-right + "px"};
+		}
+		> *:nth-child(#{$cols}n) {
+			margin-right: 0px;
+		}
+	}
+}
+//$m___: 	1024px;
+@mixin m___up($cols, $margin-right, $margin-bottom){
+	@media only screen and (min-width: #{$m___}){
+		> *:nth-of-type(n){
+			width: calc(#{(100 / $cols) + '%'} - #{($margin-right * ($cols - 1)) / $cols + px});
+			margin-bottom: #{$margin-bottom + "px"};
+			margin-right: #{$margin-right + "px"};
+		}
+		> *:nth-child(#{$cols}n) {
+			margin-right: 0px;
+		}
+	}
+}
+//$l_:		1152px;
+@mixin l_up($cols, $margin-right, $margin-bottom){
+	@media only screen and (min-width: #{$l_}){
+		> *:nth-of-type(n){
+			width: calc(#{(100 / $cols) + '%'} - #{($margin-right * ($cols - 1)) / $cols + px});
+			margin-bottom: #{$margin-bottom + "px"};
+			margin-right: #{$margin-right + "px"};
+		}
+		> *:nth-child(#{$cols}n) {
+			margin-right: 0px;
+		}
+	}
+}
+//$l__: 	1366px;
+@mixin l__up($cols, $margin-right, $margin-bottom){
+	@media only screen and (min-width: #{$l__}){
+		> *:nth-of-type(n){
+			width: calc(#{(100 / $cols) + '%'} - #{($margin-right * ($cols - 1)) / $cols + px});
+			margin-bottom: #{$margin-bottom + "px"};
+			margin-right: #{$margin-right + "px"};
+		}
+		> *:nth-child(#{$cols}n) {
+			margin-right: 0px;
+		}
+	}
+}

@@ -1,0 +1,85 @@
+//min-width: 0 px;
+@include media($s_) {
+	@for $i from 1 through $column{
+		.s_#{$i}{
+			width: #{100 / $column * $i + '%'};
+		}
+	}
+}
+//min-width: 480 px;
+@include media($s__) {
+	@for $i from 1 through $column{
+		//сетка
+		.s__#{$i}{
+			width: #{100 / $column * $i + '%'};
+		}
+		//отступи з права
+		.s__offset_#{$i}{
+			margin-left: #{100 / $column * $i + '%'};
+		}
+	}
+}
+//min-width: 640px;
+@include media($s___) {
+	@for $i from 1 through $column{
+		.s___#{$i}{
+			width: #{100 / $column * $i + '%'};
+		}
+		//отступи з права
+		.s___offset_#{$i}{
+			margin-left: #{100 / $column * $i + '%'};
+		}
+	}
+}
+//mi-width: 768px;
+@include media($m_) {
+	@for $i from 1 through $column{
+		.m_#{$i}{
+			width: #{100 / $column * $i + '%'};
+		}
+		.m_offset_#{$i}{
+			margin-left: #{100 / $column * $i + '%'};
+		}
+	}
+}
+//mi-width: 968px;
+@include media($m__) {
+	@for $i from 1 through $column{
+		.m__#{$i}{
+			width: #{100 / $column * $i + '%'};
+		}
+		.m__offset_#{$i}{
+			margin-left: #{100 / $column * $i + '%'};
+		}
+	}
+}
+//mi-width: 1024px;
+@include media($m___) {
+	@for $i from 1 through $column{
+		.m___#{$i}{
+			width: #{100 / $column * $i + '%'};
+		}
+		.m___offset_#{$i}{
+			margin-left: #{100 / $column * $i + '%'};
+		}
+	}
+}
+//mi-width: 1180px;
+@include media($l_) {
+	@for $i from 1 through $column{
+		.l_#{$i}{
+			width: #{100 / $column * $i + '%'};
+		}
+		.l_offset_#{$i}{
+			margin-left: #{100 / $column * $i + '%'};
+		}
+	}
+}
+//mi-width: 1366px;
+@include media($l__) {
+	@for $i from 1 through $column{
+		.l__#{$i}{
+			width: #{100 / $column * $i + '%'};
+		}
+	}
+}

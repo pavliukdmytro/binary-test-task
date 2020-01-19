@@ -1,0 +1,49 @@
+@import "../grid/settings/settings.scss";
+//#s_:		0px;
+@mixin s_{
+	@media only screen and (min-width: $s_){
+		@content;
+	}
+}
+//$s__:		480px;
+@mixin s__{
+	@media only screen and (min-width: $s__){
+		@content;
+	}
+}
+//$s___:	640px;
+@mixin s___{
+	@media only screen and (min-width: $s___){
+		@content;
+	}
+}
+//$m_:		768px;
+@mixin m_{
+	@media only screen and (min-width: $m_){
+		@content;
+	}
+}
+//$m__: 	960px;
+@mixin m__{
+	@media only screen and (min-width: $m__){
+		@content;
+	}
+}
+//$m___: 	1024px;
+@mixin m___{
+	@media only screen and (min-width: $m___){
+		@content;
+	}
+}
+//$l_:		1152px;
+@mixin l_{
+	@media only screen and (min-width: $l_){
+		@content;
+	}
+}
+//$l__: 	1366px;
+@mixin l__{
+	@media only screen and (min-width: $l__){
+		@content;
+	}
+}
