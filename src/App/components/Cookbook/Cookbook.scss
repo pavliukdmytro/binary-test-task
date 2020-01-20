@@ -1,0 +1,32 @@
+.cook-book {
+	h1{
+		text-align: center;
+		margin-top: 21px;
+	}
+	.lds-dual-ring {
+		margin-left: auto;
+		margin-right: auto;
+		display: block;
+		width: 60px;
+		height: 60px;
+	}
+	.lds-dual-ring:after {
+		content: " ";
+		display: block;
+		width: 44px;
+		height: 44px;
+		margin: 8px;
+		border-radius: 50%;
+		border: 6px solid #fff;
+		border-color: #fff transparent #fff transparent;
+		animation: lds-dual-ring 1.2s linear infinite;
+	}
+	@keyframes lds-dual-ring {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+}

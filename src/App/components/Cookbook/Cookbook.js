@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
+import './Cookbook.scss';
 //components
 import AddNewBooks from './AddNewBooks/AddNewBooks';
 import Books from './Books/Books';
 
 function Cookbook() {
 	const [books, setBooks] = useState([]);
+	const [load, setLoad] = useState(false);
 	const headers = {
 		'Content-Type' : 'application/json'
 	}
@@ -60,24 +62,31 @@ function Cookbook() {
 		}));
 	}
 	useEffect(() => {
+		setLoad(true);
 		async function getBooks() {
 			const getFetch = await fetch('/getRecipe');
 			const response = await getFetch.json();
 			//console.log('I want a book!', response);
 			setBooks(response);
+			setLoad(false);
 		}
 		getBooks();
 	}, []);
 	return (
-		<>
-			<h1>Recipes</h1>
-			<AddNewBooks createRecipe={createRecipe} />
-			<Books	books={books}
-					deleteRecipe={deleteRecipe}
-					allowEditing={allowEditing}
-					changeBook = {changeBook}
-			/>
-		</>
+		<div className="row cook-book">
+			<div className="cols l_12 l_offset_6">
+				<h1>Recipes</h1>
+				<AddNewBooks createRecipe={createRecipe} />
+				{
+					books.length === 0 && !load?	<div className="cook-book">no recipe</div> :
+						!load ? <Books	books={books}
+										deleteRecipe={deleteRecipe}
+										allowEditing={allowEditing}
+										changeBook = {changeBook} /> :
+							<div className="lds-dual-ring"></div>
+				}
+			</div>
+		</div>
 	)
 }
 

@@ -1,20 +1,22 @@
 import React, {createRef, useState} from 'react';
 import Button from '../../general/Button/Button';
+import './addNewBooks.scss';
 
 function AddNewBooks(props) {
 	const form = createRef();
-	const [warning, setWarning] = useState(false)
+	const [warning, setWarning] = useState(false);
 
 	function sendRecipe(e) {
 		e.preventDefault();
 		const data = new FormData(form.current);
 		props.createRecipe(data);
+		form.current.querySelector('textarea').value = '';
 	}
 
 	return (
 		<form onSubmit={sendRecipe} ref={form} className="add-new-books">
 			<textarea type="text" name="recipe" />
-			<div className={}>input should don't be empty</div>
+			<div className="add-new-books-warning">input should don't be empty</div>
 			<Button type="submit">add</Button>
 		</form>
 	)

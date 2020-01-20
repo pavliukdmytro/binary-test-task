@@ -1,0 +1,21 @@
+.add-new-books {
+	display: flex;
+	align-items: stretch;
+	margin-bottom: 40px;
+	box-shadow: 1px 1px 5px #000;
+	border-radius: 8px;
+	overflow: hidden;
+	textarea {
+		resize: none;
+		font-size: 18px;
+		padding: 10px;
+		flex-grow: 2;
+	}
+	.add-new-books-warning {
+		display: none;
+	}
+	button {
+		padding: 10px 20px;
+		background-color: #b5b2b2;
+	}
+}
