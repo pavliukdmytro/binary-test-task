@@ -17,12 +17,10 @@ function Cookbook() {
 			body: data
 		});
 		const response = await send.json();
-		console.log(response.book);
 		setBooks([
+			response.book,
 			...books,
-			response.book
 		]);
-		console.log(books);
 	};
 	async function deleteRecipe(id) {
 		const deleteFetch = await fetch('/deleteRecipe', {
@@ -35,7 +33,7 @@ function Cookbook() {
 		const response = await deleteFetch.json();
 		setBooks(books.filter((el) => el._id !== response._id));
 	};
-	function allowEditing(id, recipe) {
+	function allowEditing(id, recipe, book) {
 		setBooks( books.map((el) => {
 				if(el._id === id) {
 					el.modify = true
@@ -44,29 +42,39 @@ function Cookbook() {
 			})
 		);
 		setTimeout( () => recipe.focus(), 0);
-	}
-	async function changeBook(id, recipe) {
-		// console.log(id, text);
-		const changeBook = await fetch('/putRecipe', {
-			method: 'PUT',
-			headers,
-			body: JSON.stringify({id,recipe})
-		});
-		const response = await changeBook.json();
-		setBooks(books.map(el => {
-			if(el._id === response._id) {
-				el.recipe = response.recipe,
-				el.modify = false
-			}
-			return el;
-		}));
+
+		const endEdit = async () => {
+
+			const changeBook = await fetch('/putRecipe', {
+				method: 'PUT',
+				headers,
+				body: JSON.stringify({
+					...book,
+					newRecipe: recipe.textContent
+				})
+			});
+			const response = await changeBook.json();
+
+			setBooks(books.map(el => {
+				if(el._id === response._id) {
+					el.recipe = response.recipe,
+						el.modify = false,
+						el.oldRecipe = response.oldRecipe
+				}
+				return el;
+			}));
+
+			recipe.removeEventListener('focusout', endEdit);
+		};
+		recipe.addEventListener('focusout', endEdit);
+
 	}
 	useEffect(() => {
 		setLoad(true);
 		async function getBooks() {
 			const getFetch = await fetch('/getRecipe');
 			const response = await getFetch.json();
-			//console.log('I want a book!', response);
+
 			setBooks(response);
 			setLoad(false);
 		}
@@ -81,8 +89,7 @@ function Cookbook() {
 					books.length === 0 && !load?	<div className="cook-book">no recipe</div> :
 						!load ? <Books	books={books}
 										deleteRecipe={deleteRecipe}
-										allowEditing={allowEditing}
-										changeBook = {changeBook} /> :
+										allowEditing={allowEditing} /> :
 							<div className="lds-dual-ring"></div>
 				}
 			</div>

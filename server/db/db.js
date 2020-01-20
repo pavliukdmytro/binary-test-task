@@ -4,28 +4,15 @@ const mongoClient = new MongoClient("mongodb://localhost:27017/", { useNewUrlPar
 const ObjectId = require("mongodb").ObjectID;
 
 function addBooks(req, res) {
-	//console.log('addRecipe', req.fields.recipe);
 	mongoClient.connect((err, client) => {
 		if(err) return console.log(err);
 		const db = client.db('Cookbook');
 		const collection = db.collection('books');
 
-		const options = {
-			year: 'numeric',
-			month: 'numeric',
-			day: 'numeric',
-			hour: 'numeric',
-			minute: 'numeric',
-			second: 'numeric',
-			hour12: false
-		};
-		const date = new Date();
-		const dateNow = date.toLocaleString('ua', options)
-						.replace(/\//g, '.');
-
+		const date = +new Date();
 		const recipe = {
 			recipe: req.fields.recipe,
-			dateCreate: dateNow,
+			dateCreate: date,
 			modify: false
 		};
 
@@ -33,10 +20,9 @@ function addBooks(req, res) {
 			if(err) {
 				return console.log(err);
 			}
-			console.log(result.ops[0]);
+
 			res.send({book: result.ops[0]});
 			client.close();
-
 		})
 	});
 };
@@ -48,7 +34,7 @@ function getBooks(req, res) {
 		const db = client.db('Cookbook');
 		const collection = db.collection('books');
 
-		collection.find().toArray(function(err, results) {
+		collection.find().sort({dateCreate: 1}).toArray(function(err, results) {
 			if(err) return console.log(err);
 			res.send(results);
 		});
@@ -71,24 +57,32 @@ function deleteRecipe(req, res) {
 };
 
 function putRecipe (req, res) {
-	// console.log(req.fields.id, req.fields.recipe);
 	mongoClient.connect((err, client) => {
 		if(err) return console.log(err);
 
 		const db = client.db('Cookbook');
 		const collection = db.collection('books');
 
-		collection.findOneAndUpdate({_id: ObjectId(req.fields.id)}, {$set: {recipe: req.fields.recipe}}, function (err, result) {
-			if(err) return console.log(err);
-			console.log(result);
-			res.send({
-				_id: result.value._id,
-				recipe: req.fields.recipe
-			});
-			client.close();
-		})
+		collection.findOneAndUpdate({_id: ObjectId(req.fields._id)}, {
+			$set: {recipe: req.fields.newRecipe, dateCreate: +new Date() },
+			$push: {oldRecipe: {recipe: req.fields.recipe, dateCreate: req.fields.dateCreate}}
+			},
+			function (err, result) {
+						if(err) return console.log(err);
+
+						let oldPrice = [{recipe: req.fields.recipe, dateCreate: req.fields.dateCreate}];
+						if(result.value.oldRecipe) {
+							oldPrice = [...oldPrice, ...result.value.oldRecipe]
+						}
+						res.send({
+							_id: result.value._id,
+							recipe: req.fields.recipe,
+							oldRecipe: oldPrice
+						});
+						client.close();
+					})
 	});
-}
+};
 
 module.exports = {
 	addBooks,

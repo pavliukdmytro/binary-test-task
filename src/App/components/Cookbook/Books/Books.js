@@ -1,18 +1,75 @@
 import React from 'react';
 import './books.scss';
+import Close from '../../../../images/close.svg';
+import Pen from '../../../../images/pen.svg';
+import Clock from '../../../../images/clock.svg';
 function Books(props) {
+	function changeBook(e, book) {
+		props.allowEditing(book._id, e.target.parentNode.parentNode.querySelector('.books-list-recipe'), book)
+	};
+	const dateFormat = (date) => {
+		const options = {
+			year: 'numeric',
+			month: 'numeric',
+			day: 'numeric',
+			hour: 'numeric',
+			minute: 'numeric',
+			second: 'numeric',
+			hour12: false
+		};
+		let dateNow = new Date(date)
+		return dateNow.toLocaleString('ua', options)
+		.replace(/\//g, '.')
+		.replace(/,/, '')
+	};
+	const historyRecipe = (arr) => {
+		return (
+			<div className="books-list-old">
+				<Close onClick={(e) => e.currentTarget.parentNode.classList.remove('open')} />
+				{arr.map((el, i) => {
+					return (
+						<div className="books-list-old-row" key={i}>
+							<div className="old-date">{dateFormat(el.dateCreate)}</div>
+							<div className="old-recipe">{el.recipe}</div>
+						</div>
+					)
+				})}
+			</div>
+		)
+	};
+	const openOldRecipe = (e) => {
+		//console.log( e.currentTarget.closest('.books-list-row'));
+		const oldBlock = e.currentTarget.closest('.books-list-row').querySelector('.books-list-old');
+		oldBlock.classList.toggle('open');
+
+	}
 	return (
 		<div className="books-list">
 			{
 				props.books.map((book) => {
 					return (
 						<div key={book._id} className="books-list-row">
-							<div className="books-list-date">{book.dateCreate}</div>
-							<div contentEditable={book.modify} className="books-list-recipe" suppressContentEditableWarning={book.modify}>{book.recipe}</div>
-							<div onClick={ () => props.deleteRecipe(book._id)}>close</div>
+							<div>
+								<div className="books-list-date">{dateFormat(book.dateCreate)}</div>
+								<div contentEditable={book.modify}
+									 className="books-list-recipe"
+									 suppressContentEditableWarning={book.modify}>
+									{book.recipe}
+								</div>
+								<span className ="books-list-close">
+									<Close onClick={ () => props.deleteRecipe(book._id)} />
+								</span>
+								<span className ="books-list-pen">
+									<Pen onClick={(e) => changeBook(e, book)}/>
+								</span>
+								{
+									book.oldRecipe ?<span className ="books-list-clock">
+														<Clock onClick={(e) => openOldRecipe(e)}/>
+													</span> : ''
+								}
+							</div>
 							{
-								book.modify ? <div onClick={(e) => props.changeBook(book._id, e.target.parentNode.querySelector('.books-list-recipe').textContent)} >done</div> :
-									<div onClick={(e) => props.allowEditing(book._id, e.target.parentNode.querySelector('.books-list-recipe'))} >modify</div>
+								book.oldRecipe ? historyRecipe(book.oldRecipe) :''
 							}
 						</div>
 					)

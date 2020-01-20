@@ -1,13 +1,4 @@
 import React from 'react';
+import Cookbook from './components/Cookbook/Cookbook';
 
-import Cookbook from './components/Cookbook/Cookbook'
-
-function App() {
-	return (
-		<>
-			<Cookbook />
-		</>
-	)
-}
-
-export default App;
+export default () => <Cookbook />;

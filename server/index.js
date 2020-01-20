@@ -4,8 +4,6 @@ const formidableMiddleware = require('express-formidable');
 const app = express();
 const port = process.env.PORT || 3000;
 
-
-
 const {
 	addBooks,
 	getBooks,
@@ -16,10 +14,6 @@ const {
 
 app.use(express.static('public'));
 app.use(formidableMiddleware());
-// app.use(function (req, res, next) {
-// 	console.log(req);
-// 	next();
-// })
 
 app.post('/addRecipe', addBooks);
 app.get('/getRecipe', getBooks);
