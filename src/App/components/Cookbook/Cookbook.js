@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 //components
 import AddNewBooks from './AddNewBooks/AddNewBooks';
 import Books from './Books/Books';
+
 function Cookbook() {
 	const [books, setBooks] = useState([]);
 	async function createRecipe(data) {
@@ -17,8 +18,19 @@ function Cookbook() {
 		]);
 		console.log(books);
 	};
-
-
+	async function deleteRecipe(id) {
+		const deleteFetch = await fetch('/deleteRecipe', {
+			method: "DELETE",
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				_id: id
+			})
+		});
+		const response = await deleteFetch.json();
+		setBooks(books.filter((el) => el._id !== response._id));
+	};
 	useEffect(() => {
 		async function getBooks() {
 			const getFetch = await fetch('/getRecipe')
@@ -28,12 +40,11 @@ function Cookbook() {
 		}
 		getBooks();
 	}, []);
-
 	return (
 		<>
 			<h1>Recipes</h1>
 			<AddNewBooks createRecipe={createRecipe} />
-			<Books books={books}/>
+			<Books books={books} deleteRecipe={deleteRecipe} />
 		</>
 	)
 }

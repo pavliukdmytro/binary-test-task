@@ -1,10 +1,11 @@
 const MongoClient = require("mongodb").MongoClient;
 // создаем объект MongoClient и передаем ему строку подключения
 const mongoClient = new MongoClient("mongodb://localhost:27017/", { useNewUrlParser: true });
+const ObjectId = require("mongodb").ObjectID;
 
 function addBooks(req, res) {
 	//console.log('addRecipe', req.fields.recipe);
-	mongoClient.connect(function(err,client) {
+	mongoClient.connect((err, client) => {
 		if(err) return console.log(err);
 		const db = client.db('Cookbook');
 		const collection = db.collection('books');
@@ -40,9 +41,7 @@ function addBooks(req, res) {
 };
 
 function getBooks(req, res) {
-	console.log('get');
-
-	mongoClient.connect(function(err,client) {
+	mongoClient.connect((err,client) => {
 		if(err) return console.log(err);
 
 		const db = client.db('Cookbook');
@@ -50,17 +49,31 @@ function getBooks(req, res) {
 
 		collection.find().toArray(function(err, results) {
 			if(err) return console.log(err);
-			console.log('good');
-			console.log(results);
+
 			res.send(results);
-			//console.log(client.close);
-			//client.close();
-			console.log('close');
-		})
+			// client.close(results);
+		});
 	});
+};
+
+function deleteRecipe(req, res) {
+	mongoClient.connect((err, client) => {
+		if(err) return console.log(err);
+
+		const db = client.db('Cookbook');
+		const collection = db.collection('books');
+
+		collection.findOneAndDelete({_id: ObjectId(req.fields._id)}, (err, result) => {
+			console.log(result);
+			res.send(JSON.stringify(result.value));
+			client.close(result);
+		});
+	});
+	mongoClient.connect()
 };
 
 module.exports = {
 	addBooks,
-	getBooks
-}
+	getBooks,
+	deleteRecipe
+};

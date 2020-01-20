@@ -9,7 +9,7 @@ function Books(props) {
 						<div key={book._id} className="books-list-row">
 							<div className="books-list-date">{book.dateCreate}</div>
 							<div>{book.recipe}</div>
-							<div>close</div>
+							<div onClick={ () => props.deleteRecipe(book._id)}>close</div>
 							<div>modify</div>
 						</div>
 					)
