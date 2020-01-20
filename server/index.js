@@ -9,7 +9,8 @@ const port = process.env.PORT || 3000;
 const {
 	addBooks,
 	getBooks,
-	deleteRecipe
+	deleteRecipe,
+	putRecipe
 } = require('./db/db');
 
 
@@ -23,6 +24,7 @@ app.use(formidableMiddleware());
 app.post('/addRecipe', addBooks);
 app.get('/getRecipe', getBooks);
 app.delete('/deleteRecipe', deleteRecipe);
+app.put('/putRecipe', putRecipe);
 
 app.get('/', function(req, res) {
 	res.sendFile(path.join(__dirname, '../public/index.html'))

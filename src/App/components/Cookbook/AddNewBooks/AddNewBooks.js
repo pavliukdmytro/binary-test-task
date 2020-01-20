@@ -1,8 +1,9 @@
-import React, {createRef} from 'react';
+import React, {createRef, useState} from 'react';
 import Button from '../../general/Button/Button';
 
 function AddNewBooks(props) {
-	const form = createRef()
+	const form = createRef();
+	const [warning, setWarning] = useState(false)
 
 	function sendRecipe(e) {
 		e.preventDefault();
@@ -11,8 +12,9 @@ function AddNewBooks(props) {
 	}
 
 	return (
-		<form onSubmit={sendRecipe} ref={form}>
-			<textarea type="text" name="recipe"/>
+		<form onSubmit={sendRecipe} ref={form} className="add-new-books">
+			<textarea type="text" name="recipe" />
+			<div className={}>input should don't be empty</div>
 			<Button type="submit">add</Button>
 		</form>
 	)

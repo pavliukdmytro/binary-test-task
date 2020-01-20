@@ -25,7 +25,8 @@ function addBooks(req, res) {
 
 		const recipe = {
 			recipe: req.fields.recipe,
-			dateCreate: dateNow
+			dateCreate: dateNow,
+			modify: false
 		};
 
 		collection.insertOne(recipe, function(err, result) {
@@ -49,9 +50,7 @@ function getBooks(req, res) {
 
 		collection.find().toArray(function(err, results) {
 			if(err) return console.log(err);
-
 			res.send(results);
-			// client.close(results);
 		});
 	});
 };
@@ -64,7 +63,6 @@ function deleteRecipe(req, res) {
 		const collection = db.collection('books');
 
 		collection.findOneAndDelete({_id: ObjectId(req.fields._id)}, (err, result) => {
-			console.log(result);
 			res.send(JSON.stringify(result.value));
 			client.close(result);
 		});
@@ -72,8 +70,29 @@ function deleteRecipe(req, res) {
 	mongoClient.connect()
 };
 
+function putRecipe (req, res) {
+	// console.log(req.fields.id, req.fields.recipe);
+	mongoClient.connect((err, client) => {
+		if(err) return console.log(err);
+
+		const db = client.db('Cookbook');
+		const collection = db.collection('books');
+
+		collection.findOneAndUpdate({_id: ObjectId(req.fields.id)}, {$set: {recipe: req.fields.recipe}}, function (err, result) {
+			if(err) return console.log(err);
+			console.log(result);
+			res.send({
+				_id: result.value._id,
+				recipe: req.fields.recipe
+			});
+			client.close();
+		})
+	});
+}
+
 module.exports = {
 	addBooks,
 	getBooks,
-	deleteRecipe
+	deleteRecipe,
+	putRecipe
 };
