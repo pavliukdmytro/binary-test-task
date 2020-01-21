@@ -64,21 +64,24 @@ function putRecipe (req, res) {
 		const collection = db.collection('books');
 
 		collection.findOneAndUpdate({_id: ObjectId(req.fields._id)}, {
-			$set: {recipe: req.fields.newRecipe, dateCreate: +new Date() },
-			$push: {oldRecipe: {recipe: req.fields.recipe, dateCreate: req.fields.dateCreate}}
+				$set: {recipe: req.fields.recipe, dateCreate: +new Date() },
+				$push: {oldRecipe: {recipe: req.fields.oldRecipe, dateCreate: req.fields.dateCreate}}
 			},
 			function (err, result) {
 						if(err) return console.log(err);
 
-						let oldPrice = [{recipe: req.fields.recipe, dateCreate: req.fields.dateCreate}];
-						if(result.value.oldRecipe) {
-							oldPrice = [...oldPrice, ...result.value.oldRecipe]
+						let oldPrice = [];
+						if(!result.value.oldRecipe) {
+							oldPrice.push({recipe: req.fields.oldRecipe, dateCreate: req.fields.dateCreate})
+						} else {
+							oldPrice = result.value.oldRecipe.concat([{recipe: req.fields.oldRecipe, dateCreate: req.fields.dateCreate}]);
 						}
 						res.send({
 							_id: result.value._id,
 							recipe: req.fields.recipe,
 							oldRecipe: oldPrice
 						});
+
 						client.close();
 					})
 	});

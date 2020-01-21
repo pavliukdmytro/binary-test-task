@@ -5,7 +5,7 @@ import Pen from '../../../../images/pen.svg';
 import Clock from '../../../../images/clock.svg';
 function Books(props) {
 	function changeBook(e, book) {
-		props.allowEditing(book._id, e.target.parentNode.parentNode.querySelector('.books-list-recipe'), book)
+		props.allowEditing(book._id, e.currentTarget.parentNode.parentNode.querySelector('.books-list-recipe'), book);
 	};
 	const dateFormat = (date) => {
 		const options = {
@@ -38,15 +38,13 @@ function Books(props) {
 		)
 	};
 	const openOldRecipe = (e) => {
-		//console.log( e.currentTarget.closest('.books-list-row'));
 		const oldBlock = e.currentTarget.closest('.books-list-row').querySelector('.books-list-old');
 		oldBlock.classList.toggle('open');
-
 	}
 	return (
 		<div className="books-list">
 			{
-				props.books.map((book) => {
+				props.books.map((book, i) => {
 					return (
 						<div key={book._id} className="books-list-row">
 							<div>
