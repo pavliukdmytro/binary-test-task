@@ -12,12 +12,11 @@ function Cookbook() {
 	}
 
 	async function createRecipe(data) {
-		const send = await fetch('/addRecipe', {
-			method: 'POST',
-			body: data
-		})
-			.catch((err) => console.error(err));
 		try {
+			const send = await fetch('/addRecipe', {
+				method: 'POST',
+				body: data
+			})
 			const response = await send.json();
 			setBooks([
 				response.book,
@@ -28,21 +27,19 @@ function Cookbook() {
 		}
 	};
 	async function deleteRecipe(id) {
-		const deleteFetch = await fetch('/deleteRecipe', {
-			method: "DELETE",
-			headers,
-			body: JSON.stringify({
-				_id: id
-			})
-		})
-			.catch((err) => console.error(err));
 		try {
+			const deleteFetch = await fetch('/deleteRecipe', {
+				method: "DELETE",
+				headers,
+				body: JSON.stringify({
+					_id: id
+				})
+			});
 			const response = await deleteFetch.json();
 			setBooks(books.filter((el) => el._id !== response._id));
 		} catch (e) {
-			console.error('json error');
+			console.error('delete error');
 		}
-
 	};
 	function allowEditing(id, recipe, book) {
 		setBooks( books.map((el) => {
@@ -63,17 +60,15 @@ function Cookbook() {
 					return el;
 				})
 			);
-
-			const changeBook = await fetch('/putRecipe', {
-				method: 'PUT',
-				headers,
-				body: JSON.stringify({
-					...book,
-					oldRecipe
-				})
-			})
-			.catch((err) => console.log(err));
 			try {
+				const changeBook = await fetch('/putRecipe', {
+					method: 'PUT',
+					headers,
+					body: JSON.stringify({
+						...book,
+						oldRecipe
+					})
+				});
 				const response = await changeBook.json();
 				setBooks(books.map(el => {
 					if(el._id === response._id) {
@@ -83,8 +78,8 @@ function Cookbook() {
 					}
 					return el;
 				}));
-			} catch (e) {
-				console.log('err parse json', e);
+			} catch (err) {
+				console.log('error edit data', err);
 			}
 			recipe.removeEventListener('focusout', endEdit);
 		};
@@ -95,16 +90,15 @@ function Cookbook() {
 	useEffect(() => {
 		setLoad(true);
 		async function getBooks() {
-			const getFetch = await fetch('/getRecipe')
-				.catch((err) => console.error(err));
 			try {
+				const getFetch = await fetch('/getRecipe')
 				const response = await getFetch.json();
 				setBooks(response);
 				setLoad(false);
 			} catch (err) {
-				console.error(err)
+				console.error('error get data' + err);
 			}
-		}
+		};
 		getBooks();
 	}, []);
 	return (
